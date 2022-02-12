@@ -150,7 +150,7 @@ public class Player : Mover
         //need particles i think for this
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            if (shootActive == false)
+            if (shootActive == false && isAlive)
             {
                 
 
@@ -164,7 +164,7 @@ public class Player : Mover
             //need to hold a particle emmitter
             
         }
-        else if (Input.GetKeyUp(KeyCode.Z))
+        else if (Input.GetKeyUp(KeyCode.Z) || !isAlive)
         {
             shootActive = false;
             CancelInvoke();
@@ -223,6 +223,7 @@ public class Player : Mover
             if (numLives != 0)
             {
                 numLives--;
+                GameManager.instance.updateValues("player", numLives);
             }
             else
             {

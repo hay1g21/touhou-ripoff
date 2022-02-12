@@ -31,7 +31,6 @@ public class BulletTrigger : MonoBehaviour
         int numEnter = partSys.GetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
         int numExit = partSys.GetTriggerParticles(ParticleSystemTriggerEventType.Exit, exit);
         int numInside = partSys.GetTriggerParticles(ParticleSystemTriggerEventType.Inside, inside);
-
        // ParticleSystem.Particle[] particles = new ParticleSystem.Particle[partSys.particleCount];
         //int num = partSys.GetParticles(particles);
         //Debug.Log("help");
@@ -56,6 +55,7 @@ public class BulletTrigger : MonoBehaviour
                 ParticleSystem.Particle p = enter[i];
                 p.startColor = new Color32(255, 0, 0, 255);
                 boss.takeDamage(1);
+                GameManager.instance.updateValues("score", 50);
                 p.remainingLifetime = 0;
                 enter[i] = p;
                 //set partsys again?

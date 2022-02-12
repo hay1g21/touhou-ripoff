@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,6 +37,24 @@ public class GameManager : MonoBehaviour
     public GameObject menu;
     public GameObject tileMap;
 
+    public Text score, lives, hiScore, bombs, power, graze, points;
+
+    public void updateValues(string type, int value)
+    {
+        if (type.Equals("score"))
+        {
+            int current = int.Parse(score.text);
+            current += value;
+            score.text = current.ToString();
+            if (current > int.Parse(hiScore.text))
+            {
+                hiScore.text = score.text;
+            }
+        }
+        else if(type.Equals("player")){
+            lives.text = value.ToString();
+        }
+    }
 
     //floating text
     /*
