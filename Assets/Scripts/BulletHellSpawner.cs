@@ -40,12 +40,18 @@ public class BulletHellSpawner : MonoBehaviour
         time += Time.fixedDeltaTime;
         transform.rotation = Quaternion.Euler(0, 0, time*spinSpeed);
     }
+    //returns the wave
+    public int getWave()
+    {
+        return wave;
+    }
+
     public void Update()
     {
+        /*
         if(Time.time - waveStart >= waveDur)
         {
             //stop round
-            CancelInvoke();
             
             if(Time.time - waveStart >= waveDur+waveInter)
             {
@@ -65,10 +71,14 @@ public class BulletHellSpawner : MonoBehaviour
             }
             
         }
-
+        */
     }
     void summonBullets()
     {
+        CancelInvoke();
+        clearBullets();
+        //first clear bullets
+
         //this for loop creates multiple particle systems, imagine it as each line of bullets
         for (int i = 0; i < numColumns; i++)
         {
@@ -152,11 +162,26 @@ public class BulletHellSpawner : MonoBehaviour
      * lifetime
      * wavedur
      */
+    public void clearBullets()
+    {
+        foreach (Transform systemChild in transform)
+        {
+            childrenList.Add(systemChild);
+
+        }
+        foreach (Transform systemChild in childrenList)
+        {
+            systemChild.parent = inactive.transform;
+            //clearing bullets pls
+        }
+        //clear them every stage i guess
+        
+    }
     public void nextWave()
     {
         //increase wave
         wave++;
-        Debug.Log("Next wave");
+        Debug.Log("Next wave: wave "+ wave.ToString());
         if(wave == 1)
         {
             color = Color.green;
@@ -192,7 +217,7 @@ public class BulletHellSpawner : MonoBehaviour
             waveDur = 11.0f;
             speed = 10.0f;
             summonBullets();
-            wave = 0;
+            //wave = 0;
         }
     }
 }

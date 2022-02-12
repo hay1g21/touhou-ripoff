@@ -48,13 +48,11 @@ public class BulletTrigger : MonoBehaviour
 
                 player.death();
             }
-            Debug.Log("HEY");
             if(owner.tag == "Player")
             {
-                Debug.Log("Hit");
                 ParticleSystem.Particle p = enter[i];
                 p.startColor = new Color32(255, 0, 0, 255);
-                boss.takeDamage(1);
+                boss.takeDamage(player.getDamage());
                 GameManager.instance.updateValues("score", 50);
                 p.remainingLifetime = 0;
                 enter[i] = p;

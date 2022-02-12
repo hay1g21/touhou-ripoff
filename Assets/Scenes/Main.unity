@@ -942,8 +942,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 223f6daec0863a44ab62f709710ed7bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 1000
   health: 0
+  healthPhases: c800000064000000f4010000f4010000
+  changingPhase: 0
 --- !u!1 &786270577
 GameObject:
   m_ObjectHideFlags: 0
@@ -6737,6 +6739,7 @@ MonoBehaviour:
   ySpeed: 5
   xSpeed: 5
   hitBox: {fileID: 833463712}
+  damage: 2
   numColumns: 2
   bulSpeed: 5
   texture: {fileID: 21300000, guid: 4a5b130bd57b62e4396cec16d710b42d, type: 3}
@@ -19754,10 +19757,10 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c3611b6fedf59e24092732bc384b5bac, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.09
+  m_Volume: 0.47
   m_Pitch: 1
   Loop: 0
-  Mute: 1
+  Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128

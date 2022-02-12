@@ -19,6 +19,7 @@ public class Player : Mover
 
     //SHOTO
     //some variables
+    public int damage; //damage for bullets
     public int numColumns;
     public float bulSpeed;
     public Sprite texture; //sprite varibale
@@ -47,7 +48,6 @@ public class Player : Mover
     public void Awake()
     {
         //createWeapon();
-        Debug.Log("IsShooting");
 
     }
     private void Update()
@@ -241,5 +241,10 @@ public class Player : Mover
         spriteRen.color = color;
         hitRen.color = hitColor;
         isAlive = true;
+    }
+
+    public int getDamage()
+    {
+        return damage;
     }
 }

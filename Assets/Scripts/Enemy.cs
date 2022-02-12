@@ -28,7 +28,6 @@ public class Enemy : MonoBehaviour
             health = 0;
             death();
         }
-        GameManager.instance.onHealthChange();
     }
     public void death()
     {
