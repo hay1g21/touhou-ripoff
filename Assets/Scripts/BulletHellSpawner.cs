@@ -215,7 +215,7 @@ public class BulletHellSpawner : MonoBehaviour
             firerate = 0.21f;
             spinSpeed = 300.0f;
             waveDur = 11.0f;
-            speed = 10.0f;
+            speed = 5.0f;
             summonBullets();
             //wave = 0;
         }

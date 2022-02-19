@@ -36,8 +36,9 @@ public class Boss : Enemy
                 if (bulletSpawner.getWave() == healthPhases.Count)
                 {
                     //all phases gone, you must die
-                    Debug.Log("Dead");
-                    death();
+                    Debug.Log("Boss dedad");
+                    GameManager.instance.saveState();
+                    death(); 
                 }
                 else
                 {

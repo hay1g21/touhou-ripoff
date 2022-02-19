@@ -14,12 +14,14 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-        //PlayerPrefs.DeleteAll(); //deletes data
+
+        //PlayerPrefs.DeleteAll(); //deletes data use for debug
+
         instance = this; //assigns itself to gamemanager object in the scene
         //sceneloaded is an event which fires from scenemanager when scene is loaded
         //everytime its fired thr += makes fire every func inside event (inthiscase loadstate and some others)
-        //SceneManager.sceneLoaded += loadState; //runs once at start
-        //SceneManager.sceneLoaded += onSceneLoaded; //runs every scene
+        SceneManager.sceneLoaded += loadState; //runs once at start
+        SceneManager.sceneLoaded += onSceneLoaded; //runs every scene
         //DontDestroyOnLoad(gameObject);
         tileMap.SetActive(false);
     }
@@ -80,7 +82,35 @@ public class GameManager : MonoBehaviour
         hitpointBar.localScale = new Vector3(1, ratio, 1);
     }
     */
-    //on scene loaded
+    //save and load states
+    public void saveState()
+    {
+        //save a string with all the data you want to player prefs
+        string s = "";
+
+        s += hiScore.text + "|";
+        s += "0";
+
+        //now save, value of key is savestate
+        PlayerPrefs.SetString("SaveState", s);
+
+    }
+    public void loadState(Scene s, LoadSceneMode mode)
+    {
+        //Debug.Log("Lol");
+        SceneManager.sceneLoaded -= loadState;
+
+        if (!PlayerPrefs.HasKey("SaveState"))
+            return;
+        //get string by setting value of the key. and parse by |
+        string[] data = PlayerPrefs.GetString("SaveState").Split('|');
+        Debug.Log(data[0]);
+        //set score which is first value
+        hiScore.text = data[0];
+
+
+    }
+
     public void onHealthChange()
     {
         //get ratio of maxhealth and current health :)
