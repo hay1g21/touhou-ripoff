@@ -9,14 +9,14 @@ public class Player : Mover
     private SpriteRenderer hitRen;
     private Color hitColor;
     private BoxCollider2D boxCollider;
-    public GameObject hitBox;
     private int numLives;
     private float timeOfDeath;
     private float respawnTime = 1.0f; //time until respawn
     private float invinPeriod = 2.0f; //stays alive for a bit
     private bool isAlive = true;
 
-
+    public GameObject hitBox;
+    public float focusMult; //multiplier for focus speed
     //SHOTO
     //some variables
     public int damage; //damage for bullets
@@ -75,7 +75,7 @@ public class Player : Mover
                 hitColor = hitRen.color;
                 hitColor.a = 1;
                 hitRen.color = hitColor;
-                UpdateMotor(new Vector3(x / 4, y / 4, 0));
+                UpdateMotor(new Vector3(x, y, 0).normalized * focusMult);
             }
             
         }
@@ -87,7 +87,7 @@ public class Player : Mover
             //focus speed
             if (isAlive)
             {
-                UpdateMotor(new Vector3(x, y, 0));
+                UpdateMotor(new Vector3(x, y, 0).normalized);
             }
             
         }
