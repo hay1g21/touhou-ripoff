@@ -25,7 +25,7 @@ public abstract class Mover : MonoBehaviour //abstracted not able to drop on obj
         //reset movedelta
         moveDelta = input;
         //moveDelta = new Vector3(input.x, input.y, 0).normalized; //normalise to fix vertical speed being faster, makes x and y smaller to account for both keys being pressed
-        Debug.Log(moveDelta.magnitude + " x: " + moveDelta.x + "y: " + moveDelta.y);
+        //Debug.Log(moveDelta.magnitude + " x: " + moveDelta.x + "y: " + moveDelta.y);
 
 
 
@@ -40,7 +40,7 @@ public abstract class Mover : MonoBehaviour //abstracted not able to drop on obj
         }
 
         //move x
-        Debug.Log(moveDelta.x * xSpeed * Time.deltaTime);
+        //Debug.Log(moveDelta.x * xSpeed * Time.deltaTime);
 
         transform.Translate(moveDelta.x * xSpeed * Time.fixedDeltaTime, 0, 0);
 

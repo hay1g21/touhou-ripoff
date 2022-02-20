@@ -119,7 +119,11 @@ public class GameManager : MonoBehaviour
     }
     public void onSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        player.transform.position = GameObject.Find("SpawnPoint").transform.position;
+        Debug.Log("WHAT");
+        if(player == null && scene.buildIndex != 0){
+            player.transform.position = GameObject.Find("SpawnPoint").transform.position;
+        }
+        
     }
 
 }
