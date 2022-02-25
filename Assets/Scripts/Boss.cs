@@ -10,12 +10,38 @@ public class Boss : Enemy
     public List<int> healthPhases;
     public bool changingPhase = false;
     // Update is called once per frame
+    public float moveSpeed;
+    private Transform rotationCenter;
+
     public void Start()
     {
         maxHealth = healthPhases[0];
         health = maxHealth;
         bulletSpawner = gameObject.GetComponent<BulletHellSpawner>();
         Debug.Log(healthPhases.Count);
+        rotationCenter = new GameObject().GetComponent<Transform>();
+        rotationCenter.position = gameObject.transform.position;
+    }
+
+    public void Update()
+    {
+        moveCircle();
+    }
+
+    private float angle = 0f;
+    public float radius = .2f;
+    public float angularSpeed = 2f;
+
+    public void moveCircle()
+    {
+        transform.position = new Vector3(rotationCenter.position.x + Mathf.Cos(angle) * radius, rotationCenter.position.y + Mathf.Sin(angle) * radius, 0);
+        angle = angle + Time.deltaTime * angularSpeed;
+
+        if(angle >= 360f)
+        {
+            angle = 0f;
+        }
+        Debug.Log("Changed to: " +rotationCenter.position.x);
     }
 
     public override void takeDamage(int damageAmount)

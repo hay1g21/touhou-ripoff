@@ -57,4 +57,10 @@ public class PauseMenu : MenuScript
         GameManager.instance.saveState();
         SceneManager.LoadScene(0);
     }
+
+    public void retry()
+    {
+        GameManager.instance.saveState();
+        SceneManager.LoadScene(1);
+    }
 }
