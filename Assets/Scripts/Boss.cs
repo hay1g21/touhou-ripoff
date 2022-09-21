@@ -10,8 +10,12 @@ public class Boss : Enemy
     public List<int> healthPhases;
     public bool changingPhase = false;
     // Update is called once per frame
-    public float moveSpeed;
+    
     private Transform rotationCenter;
+
+    //sfx
+    public AudioSource phaseClear; //when boss runs out of health and bullets are cleared
+    public AudioSource phaseStart; //when a new spell of bullets starts
 
     public void Start()
     {
@@ -41,7 +45,7 @@ public class Boss : Enemy
         {
             angle = 0f;
         }
-        Debug.Log("Changed to: " +rotationCenter.position.x);
+        //Debug.Log("Changed to: " +rotationCenter.position.x);
     }
 
     public override void takeDamage(int damageAmount)
@@ -51,14 +55,15 @@ public class Boss : Enemy
         {
             //switch to next wave
             health = 0;
-           
+            phaseClear.Play();
             if (!changingPhase)
             {
                 Debug.Log("Changing phase");
                 changingPhase = true;
                 //change the wave
                 bulletSpawner.nextWave();
-                //check if dead first
+
+                //then check if dead by matching new wave num with phases
                 if (bulletSpawner.getWave() == healthPhases.Count)
                 {
                     //all phases gone, you must die
@@ -74,8 +79,10 @@ public class Boss : Enemy
                     //reset bar
                     GameManager.instance.onHealthChange();
                     //finish and phase can change again
-                    
+                    phaseStart.Play();
                 }
+                
+                
                 changingPhase = false;
 
             }

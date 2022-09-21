@@ -39,7 +39,8 @@ public class GameManager : MonoBehaviour
     public GameObject menu;
     public GameObject tileMap;
 
-    public Text score, lives, hiScore, bombs, power, graze, points;
+    public Text score, lives, hiScore, bombs, power, graze, points; //Various texts.
+    public Text BossName; //Name of the boss.
 
     public void updateValues(string type, int value)
     {
@@ -111,15 +112,21 @@ public class GameManager : MonoBehaviour
 
     }
 
+    //for healthbar gui
     public void onHealthChange()
     {
         //get ratio of maxhealth and current health :)
         float ratio = (float)boss.health / (float)boss.maxHealth;
         hitpointBar.localScale = new Vector3(ratio, 1, 1);
+        if(boss.health == 0)
+        {
+            //hide the boss' name!
+            BossName.enabled = false;
+        }
     }
     public void onSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("WHAT");
+        //Debug.Log("WHAT");
         if(player == null && scene.buildIndex != 0){
             player.transform.position = GameObject.Find("SpawnPoint").transform.position;
         }

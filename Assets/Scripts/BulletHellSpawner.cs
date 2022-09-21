@@ -17,6 +17,7 @@ public class BulletHellSpawner : MonoBehaviour
     public Material material;
     public float spinSpeed; //spin of object for pretty patterns
     public float time;
+    public float radiusScale; //for the hitbox of the particles
 
     //stuff for waves
     public float waveDur = 5.0f;
@@ -29,6 +30,8 @@ public class BulletHellSpawner : MonoBehaviour
     public List<Transform> childrenList = new List<Transform>(); //this bs
     // In this example, we have a Particle System emitting green particles; we then emit and override some properties every 2 seconds.
     public ParticleSystem system;
+
+    
 
     public void Awake()
     {
@@ -121,7 +124,21 @@ public class BulletHellSpawner : MonoBehaviour
             trig.inside = ParticleSystemOverlapAction.Callback;
             trig.enter = ParticleSystemOverlapAction.Callback;
             trig.exit = ParticleSystemOverlapAction.Callback;
-            go.AddComponent<BulletTrigger>(); //lets particles be triggered
+            //go.AddComponent<BulletTrigger>(); //adds a bullet trigger script which we may not need, disabled!
+
+            //collision detection (may be wonky but lets see if we can put some magic into it)
+            var coll = system.collision;
+            coll.type = ParticleSystemCollisionType.World; //collision is based in the world?? no idea
+            coll.mode = ParticleSystemCollisionMode.Collision2D; //think this is it
+            coll.collidesWith = LayerMask.GetMask("Nothing");
+            coll.collidesWith = LayerMask.GetMask("Player"); //have to get player layer for this one
+            coll.enabled = true;
+            coll.lifetimeLoss = 1; //make them disappear after collision;
+            coll.radiusScale = radiusScale; //changes hitbox to make them smaller/bigger than sprite, useful
+            coll.sendCollisionMessages = true; //feedback to the scripts i think lol
+
+            //katerina did this part
+            go.AddComponent<BulletCollision>(); //adds amazing bullet collision to magical bullets! 
         }
 
         
@@ -171,11 +188,15 @@ public class BulletHellSpawner : MonoBehaviour
         }
         foreach (Transform systemChild in childrenList)
         {
-            systemChild.parent = inactive.transform;
-            //clearing bullets pls
+            systemChild.parent = inactive.transform; //Remove this.
+
+            //clearing bullets please :(
+            systemChild.GetComponent<ParticleSystem>().Clear(); //Clears bullets.
+            Destroy(systemChild.gameObject);
         }
-        //clear them every stage i guess
-        
+
+        //clear them every stage, looks like it works
+        childrenList = new List<Transform>();
     }
     public void nextWave()
     {
@@ -185,9 +206,9 @@ public class BulletHellSpawner : MonoBehaviour
         if(wave == 1)
         {
             color = Color.green;
-            numColumns = 30;
-            speed = 2.0f;
-            lifetime = 5.0f;
+            numColumns = 50;
+            speed = 0.2f;
+            lifetime = 20.0f;
             firerate = 0.2f;
             size = 0.07f;
             spinSpeed = 10.0f;
@@ -204,6 +225,7 @@ public class BulletHellSpawner : MonoBehaviour
             lifetime = 10.0f;
             spinSpeed = 50.0f;
             waveDur = 5.0f;
+            radiusScale = 0.2f;
             summonBullets();
         }
         if(wave == 3)
@@ -215,9 +237,10 @@ public class BulletHellSpawner : MonoBehaviour
             firerate = 0.21f;
             spinSpeed = 300.0f;
             waveDur = 11.0f;
-            speed = 5.0f;
+            speed = 3.0f;
             summonBullets();
             //wave = 0;
         }
+     
     }
 }

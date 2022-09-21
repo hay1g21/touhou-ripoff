@@ -9,6 +9,9 @@ public class PauseMenu : MenuScript
     public GameObject backDrop;
     public bool isPaused;
 
+    public AudioSource openSound;
+    public AudioSource closeSound;
+
     // Start is called before the first frame update
     public void Start()
     {
@@ -23,11 +26,12 @@ public class PauseMenu : MenuScript
         {
             if (isPaused)
             {
-                Debug.Log("WOrk");
+                
                 resumeGame();
             }
             else
             {
+                
                 pauseGame();
             }
         }
@@ -35,9 +39,11 @@ public class PauseMenu : MenuScript
 
     public void pauseGame()
     {
+        
         backDrop.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
+        openSound.Play();
     }
 
     public void resumeGame()
@@ -46,7 +52,7 @@ public class PauseMenu : MenuScript
         backDrop.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
-        Debug.Log(isPaused);
+        closeSound.Play();
     }
 
     //return to title screen

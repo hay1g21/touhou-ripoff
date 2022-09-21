@@ -8,6 +8,11 @@ public class Enemy : MonoBehaviour
     public int health;
     public int score; //score given upon being dead
 
+    
+
+    //sfx
+    public AudioSource enemyDeath;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,9 +22,10 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
+    
     public virtual void takeDamage(int damageAmount)
     {
 
@@ -33,6 +39,7 @@ public class Enemy : MonoBehaviour
     public void death()
     {
         GameManager.instance.updateValues("score", score);
+        enemyDeath.Play();
         Destroy(this.gameObject);
     }
 }

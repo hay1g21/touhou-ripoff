@@ -32,6 +32,11 @@ public class Player : Mover
     public float spinSpeed; //spin of object for pretty patterns
     public float time;
     public ParticleSystem system;
+    
+    //sfx
+    public AudioSource plDeath;
+    public AudioSource plShoot;
+    public AudioSource plBomb;
 
 
     protected override void Start()
@@ -136,16 +141,32 @@ public class Player : Mover
             //stuff for trigger
             var trig = system.trigger;
             trig.enabled = true;
+
         //trig.AddCollider(hitBox.GetComponent<BoxCollider2D>());
         Debug.Log(GameManager.instance.boss.gameObject.name);
             trig.AddCollider(GameManager.instance.boss.GetComponent<BoxCollider2D>());
             trig.inside = ParticleSystemOverlapAction.Callback;
             trig.enter = ParticleSystemOverlapAction.Callback;
             trig.exit = ParticleSystemOverlapAction.Callback;
-            go.AddComponent<BulletTrigger>(); //lets particles be triggered
+            //go.AddComponent<BulletTrigger>(); //lets particles be triggered
+
+        //things for collision
+        go.AddComponent<BulletCollision>();
+
+        //collision detection (may be wonky but lets see if we can put some magic into it)
+        var coll = system.collision;
+        coll.type = ParticleSystemCollisionType.World; //collision is based in the world?? no idea
+        coll.mode = ParticleSystemCollisionMode.Collision2D; //think this is it
+        coll.collidesWith = LayerMask.GetMask("Nothing");
+        coll.collidesWith = LayerMask.GetMask("Enemies"); //have to get player layer for this one
+        coll.enabled = true;
+        coll.lifetimeLoss = 1; //make them disappear after collision;
+        coll.radiusScale = 1; //changes hitbox to make them smaller/bigger than sprite, useful
+        coll.sendCollisionMessages = true; //feedback to the scripts i think lol
+
     }
 
-        public void shoot()
+    public void shoot()
     {
         //need particles i think for this
         if (Input.GetKeyDown(KeyCode.Z))
@@ -154,7 +175,7 @@ public class Player : Mover
             {
                 
 
-                InvokeRepeating("DoEmit", 0f, firerate);
+                InvokeRepeating("DoEmit", 0f, firerate); //think this repeats the shooting?
                 shootActive = true;
             }
             //bulletColor = Color.green;
@@ -190,6 +211,7 @@ public class Player : Mover
             }
             
         }
+        plShoot.Play();
 
 
         //system.Play(); // Continue normal emissions
@@ -215,10 +237,15 @@ public class Player : Mover
             //change isalive to false to stop from moving
             isAlive = false;
 
+            //turn player invisible like death
             color.a = 0;
             hitColor.a = 0;
+
+            plDeath.Play(); //play death sound
+
             spriteRen.color = color;
             hitRen.color = hitColor;
+
             //decrease lives or gameover
             if (numLives != 0)
             {
