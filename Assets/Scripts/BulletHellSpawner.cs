@@ -23,8 +23,9 @@ public class BulletHellSpawner : MonoBehaviour
     public float waveDur = 5.0f;
     public float waveStart;
     public int wave = 0;
-    public float waveInter = 2.0f;
+    private float waveDelay = 3.0f;
 
+    public GameObject pivot; //The main part where the bullets come out of.
     public GameObject hitBox;
     public GameObject inactive; //where old shooters go
     public List<Transform> childrenList = new List<Transform>(); //this bs
@@ -41,7 +42,7 @@ public class BulletHellSpawner : MonoBehaviour
     private void FixedUpdate()
     {
         time += Time.fixedDeltaTime;
-        transform.rotation = Quaternion.Euler(0, 0, time*spinSpeed);
+        pivot.transform.rotation = Quaternion.Euler(0, 0, time*spinSpeed);
     }
     //returns the wave
     public int getWave()
@@ -78,8 +79,7 @@ public class BulletHellSpawner : MonoBehaviour
     }
     void summonBullets()
     {
-        CancelInvoke();
-        clearBullets();
+       
         //first clear bullets
 
         //this for loop creates multiple particle systems, imagine it as each line of bullets
@@ -94,8 +94,8 @@ public class BulletHellSpawner : MonoBehaviour
             // Create a green Particle System.
             var go = new GameObject("Particle System");
             go.transform.Rotate(angle*i, 90, 0); // Rotate system orientation, particles would be invisible otherwise
-            go.transform.parent = this.transform; //gives a parent to the part system
-            go.transform.position = this.transform.position; //starts at position of the object
+            go.transform.parent = this.pivot.transform; //gives a parent to the part system, can be anything (a pivot)
+            go.transform.position = this.pivot.transform.position; //starts at position of the object
             system = go.AddComponent<ParticleSystem>();
             go.GetComponent<ParticleSystemRenderer>().material = particleMaterial;
             var mainModule = system.main;
@@ -152,7 +152,7 @@ public class BulletHellSpawner : MonoBehaviour
     void DoEmit()
     {
         //make each particle system shoot particles
-        foreach(Transform systemChild in transform)
+        foreach(Transform systemChild in pivot.transform)
         {
             //modify system variable to be for each of the children, otherwise it will refer to one of them
             system = systemChild.GetComponent<ParticleSystem>();
@@ -181,7 +181,7 @@ public class BulletHellSpawner : MonoBehaviour
      */
     public void clearBullets()
     {
-        foreach (Transform systemChild in transform)
+        foreach (Transform systemChild in pivot.transform)
         {
             childrenList.Add(systemChild);
 
@@ -200,45 +200,50 @@ public class BulletHellSpawner : MonoBehaviour
     }
     public void nextWave()
     {
+        //cancels shooting and clears all the bullets
+        //CancelInvoke();
+        //clearBullets();
+
         //increase wave
         wave++;
         Debug.Log("Next wave: wave "+ wave.ToString());
         if(wave == 1)
         {
+            spinSpeed = 10.0f;
             color = Color.green;
-            numColumns = 50;
-            speed = 0.2f;
+            numColumns = 20;
+            speed = 0.4f;
             lifetime = 20.0f;
             firerate = 0.2f;
-            size = 0.07f;
-            spinSpeed = 10.0f;
-            summonBullets();
+            size = 0.05f;
+            
+            Invoke("summonBullets",waveDelay);
 
         }
         if (wave == 2)
         {
+            spinSpeed = 50.0f;
             color = Color.cyan;
             numColumns = 10;
             size = 0.75f;
             speed = 1.0f;
             firerate = 1.0f;
             lifetime = 10.0f;
-            spinSpeed = 50.0f;
             waveDur = 5.0f;
             radiusScale = 0.2f;
-            summonBullets();
+            Invoke("summonBullets", waveDelay);
         }
         if(wave == 3)
         {
+            spinSpeed = 160.0f;
             color = Color.magenta;
-            numColumns = 5;
+            numColumns = 20;
             size = 0.1f;
-            lifetime = 5.0f;
-            firerate = 0.21f;
-            spinSpeed = 300.0f;
+            lifetime = 10.0f;
+            firerate = 0.10f;
             waveDur = 11.0f;
-            speed = 3.0f;
-            summonBullets();
+            speed = 2.0f;
+            Invoke("summonBullets", waveDelay);
             //wave = 0;
         }
      

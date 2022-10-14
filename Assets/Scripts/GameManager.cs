@@ -118,7 +118,9 @@ public class GameManager : MonoBehaviour
         //get ratio of maxhealth and current health :)
         float ratio = (float)boss.health / (float)boss.maxHealth;
         hitpointBar.localScale = new Vector3(ratio, 1, 1);
-        if(boss.health == 0)
+        //checks if the bosses health is at 0, and the boss is at its last wave
+        Debug.Log("At..." + boss.bulletSpawner.getWave() + "And..." + boss.healthPhases.Count);
+        if(boss.health == 0 && boss.bulletSpawner.getWave() == boss.healthPhases.Count-1)
         {
             //hide the boss' name!
             BossName.enabled = false;
@@ -127,7 +129,7 @@ public class GameManager : MonoBehaviour
     public void onSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         //Debug.Log("WHAT");
-        if(player == null && scene.buildIndex != 0){
+        if(player != null && scene.buildIndex != 0){
             player.transform.position = GameObject.Find("SpawnPoint").transform.position;
         }
         

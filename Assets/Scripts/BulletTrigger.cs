@@ -14,6 +14,11 @@ public class BulletTrigger : MonoBehaviour
     List<ParticleSystem.Particle> enter = new List<ParticleSystem.Particle>();
     List<ParticleSystem.Particle> exit = new List<ParticleSystem.Particle>();
     List<ParticleSystem.Particle> inside = new List<ParticleSystem.Particle>();
+
+    private void Start()
+    {
+        get();
+    }
     void OnEnable()
     {
         partSys = GetComponent<ParticleSystem>();
@@ -79,5 +84,15 @@ public class BulletTrigger : MonoBehaviour
         // re-assign the modified particles back into the particle system
         partSys.SetTriggerParticles(ParticleSystemTriggerEventType.Enter, enter);
         partSys.SetTriggerParticles(ParticleSystemTriggerEventType.Exit, exit);
+    }
+
+    public void get()
+    {
+        List<int> list = new List<int>();
+        list.Add(2);
+        list.Add(3);
+        list.Add(7);
+
+        Debug.Log(list.Count);
     }
 }

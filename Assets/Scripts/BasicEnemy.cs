@@ -45,12 +45,13 @@ public class BasicEnemy : Enemy
         look();
         
     }
-    //A hassle, points enemy shots at the player
+    //A hassle, points enemy shots at the player.
     public void look()
     {
         Vector3 vectorToTarget = target.transform.position - transform.position;
+        //triangle stuff
         float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg - rotationModifier;
-        Debug.Log(angle);
+        //Debug.Log(angle);
         Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
         Pivot.transform.rotation = Quaternion.Slerp(Pivot.transform.rotation, q, Time.deltaTime * speed);
     }

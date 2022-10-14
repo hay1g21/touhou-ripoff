@@ -18,7 +18,7 @@ public class BulletCollision : MonoBehaviour
 
     public void OnParticleCollision(GameObject collided)
     {
-        Debug.Log(collided + " has collided with a bullet."); //Shows the gameObject the bullet has collided with.
+        //Debug.Log(collided + " has collided with a bullet."); //Shows the gameObject the bullet has collided with.
 
         //Determines what has been hit.
 

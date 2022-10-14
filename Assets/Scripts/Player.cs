@@ -59,6 +59,7 @@ public class Player : Mover
     {
         updateBoundaries();
         shoot();
+        //If the player is dead, and the time elapsed exceeds the dead period, the player can revive
         if (!isAlive && Time.time - timeOfDeath > respawnTime)
         {
             respawn();
@@ -232,7 +233,9 @@ public class Player : Mover
     //called when hit by bullet
     public void death()
     {
-        if(Time.time - timeOfDeath > invinPeriod)
+        //Counts the time elapsed between now and the last death.
+        //If the time elapsed exceeds the invincibility period, the player can die.
+        if (Time.time - timeOfDeath > invinPeriod)
         {
             //change isalive to false to stop from moving
             isAlive = false;
@@ -257,7 +260,7 @@ public class Player : Mover
                 //gameover
                 //return;
             }
-            timeOfDeath = Time.time;
+            timeOfDeath = Time.time; //new time of death is set
         }
         
     }
