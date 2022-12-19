@@ -18,6 +18,7 @@ public class BulletHellSpawner : MonoBehaviour
     public float spinSpeed; //spin of object for pretty patterns
     public float time;
     public float radiusScale; //for the hitbox of the particles
+    public float gravModifier; //how much bullets are affected by gravity
 
     //stuff for waves
     public float waveDur = 5.0f;
@@ -48,6 +49,11 @@ public class BulletHellSpawner : MonoBehaviour
     public int getWave()
     {
         return wave;
+    }
+
+    public float getWaveDelay()
+    {
+        return waveDelay;
     }
 
     public void Update()
@@ -98,10 +104,13 @@ public class BulletHellSpawner : MonoBehaviour
             go.transform.position = this.pivot.transform.position; //starts at position of the object
             system = go.AddComponent<ParticleSystem>();
             go.GetComponent<ParticleSystemRenderer>().material = particleMaterial;
+
             var mainModule = system.main;
             mainModule.startSpeed = speed;
             mainModule.maxParticles = 100000;
             mainModule.simulationSpace = ParticleSystemSimulationSpace.World; //makes it so particles behave differently (world for independent to object)
+            mainModule.gravityModifier = gravModifier;
+
             var emission = system.emission; //gets the emission module (property sidebar in inspector)
             emission.enabled = false; //disables main emission of particle emitter
 
@@ -125,6 +134,10 @@ public class BulletHellSpawner : MonoBehaviour
             trig.enter = ParticleSystemOverlapAction.Callback;
             trig.exit = ParticleSystemOverlapAction.Callback;
             //go.AddComponent<BulletTrigger>(); //adds a bullet trigger script which we may not need, disabled!
+
+            //render those bullets!!!
+            var ren = system.GetComponent<Renderer>(); //strange way to get it...
+            ren.sortingLayerID = SortingLayer.NameToID("Bullets");
 
             //collision detection (may be wonky but lets see if we can put some magic into it)
             var coll = system.collision;
@@ -209,32 +222,36 @@ public class BulletHellSpawner : MonoBehaviour
         Debug.Log("Next wave: wave "+ wave.ToString());
         if(wave == 1)
         {
+            //green small
             spinSpeed = 10.0f;
             color = Color.green;
             numColumns = 20;
-            speed = 0.4f;
+            speed = -1.2f;
             lifetime = 20.0f;
-            firerate = 0.2f;
-            size = 0.05f;
+            firerate = 0.3f;
+            size = 0.06f;
             
             Invoke("summonBullets",waveDelay);
 
         }
         if (wave == 2)
         {
+            //blue big
             spinSpeed = 50.0f;
             color = Color.cyan;
-            numColumns = 10;
+            numColumns = 15;
             size = 0.75f;
             speed = 1.0f;
             firerate = 1.0f;
             lifetime = 10.0f;
             waveDur = 5.0f;
-            radiusScale = 0.2f;
+            radiusScale = 0.4f;
+            gravModifier = 0.1f;
             Invoke("summonBullets", waveDelay);
         }
         if(wave == 3)
         {
+            //purple fast
             spinSpeed = 160.0f;
             color = Color.magenta;
             numColumns = 20;
@@ -242,7 +259,9 @@ public class BulletHellSpawner : MonoBehaviour
             lifetime = 10.0f;
             firerate = 0.10f;
             waveDur = 11.0f;
-            speed = 2.0f;
+            speed = 1.5f;
+            radiusScale = 0.5f;
+            gravModifier = 0f;
             Invoke("summonBullets", waveDelay);
             //wave = 0;
         }

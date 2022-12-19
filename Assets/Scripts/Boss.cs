@@ -106,6 +106,12 @@ public class Boss : Enemy
         count++;
 
     }
+
+    //sets bool back to false
+    public void endTransition()
+    {
+        changingPhase = false;
+    }
     private float angle = 0f;
     public float radius = .2f;
     public float angularSpeed = 2f;
@@ -138,13 +144,22 @@ public class Boss : Enemy
 
     public override void takeDamage(int damageAmount)
     {
-        health -= damageAmount; //deduct damage from health, simple stuff...
+        if (!changingPhase)
+        {
+            health -= damageAmount; //deduct damage from health, simple stuff...
+        }
+        else
+        {
+            health -= Mathf.RoundToInt(damageAmount * 0.2f);
+            
+        }
+        
 
         //health lower than 0, boss has run out of health!
         if (health <= 0)
         {
             health = 0; //don't go negative health
-
+            changingPhase = true; //now boss is changing phase
             //need boss invincibility period
 
             if (Time.time - timeOfDeath > delay)
@@ -199,6 +214,7 @@ public class Boss : Enemy
         
         //advance the wave
         bulletSpawner.nextWave();
+        Invoke("endTransition", bulletSpawner.getWaveDelay()); //allows damage reduction until the bullets fire
         //get new health
         maxHealth = healthPhases[bulletSpawner.getWave()];
         health = maxHealth;
