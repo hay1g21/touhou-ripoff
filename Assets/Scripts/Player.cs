@@ -176,7 +176,7 @@ public class Player : Mover
             {
                 
 
-                InvokeRepeating("DoEmit", 0f, firerate); //think this repeats the shooting?
+                InvokeRepeating("DoEmit", 0f, firerate); // this repeats the shooting
                 shootActive = true;
             }
             //bulletColor = Color.green;

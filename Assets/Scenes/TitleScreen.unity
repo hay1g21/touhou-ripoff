@@ -536,6 +536,7 @@ MonoBehaviour:
   power: {fileID: 0}
   graze: {fileID: 0}
   points: {fileID: 0}
+  BossName: {fileID: 0}
 --- !u!4 &217233564
 Transform:
   m_ObjectHideFlags: 0
@@ -19148,7 +19149,7 @@ AudioSource:
   m_Volume: 0.47
   m_Pitch: 1
   Loop: 0
-  Mute: 1
+  Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128

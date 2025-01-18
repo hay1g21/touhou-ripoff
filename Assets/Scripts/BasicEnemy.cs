@@ -111,7 +111,7 @@ public class BasicEnemy : Enemy
 
     public void shoot()
     {
-        InvokeRepeating("DoEmit", 0f, firerate); //think this repeats the shooting? It does.
+        InvokeRepeating("DoEmit", 0f, firerate); //think this repeats the shooting
 
         //Cancel Invoke for stopping the shots. Remember that.
 

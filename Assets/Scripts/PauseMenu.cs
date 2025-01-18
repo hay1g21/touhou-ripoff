@@ -66,6 +66,7 @@ public class PauseMenu : MenuScript
 
     public void retry()
     {
+        Time.timeScale = 1f;
         GameManager.instance.saveState();
         SceneManager.LoadScene(1);
     }

@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
 
     //public List<Sprite> playerSprites;
 
+    
+    
+
     //references to other thigns
     public Player player;
     public Boss boss;

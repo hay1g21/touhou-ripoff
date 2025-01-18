@@ -150,8 +150,8 @@ public class BulletHellSpawner : MonoBehaviour
             coll.radiusScale = radiusScale; //changes hitbox to make them smaller/bigger than sprite, useful
             coll.sendCollisionMessages = true; //feedback to the scripts i think lol
 
-            //katerina did this part
-            go.AddComponent<BulletCollision>(); //adds amazing bullet collision to magical bullets! 
+           
+            go.AddComponent<BulletCollision>(); //adds amazing bullet collision
         }
 
         
